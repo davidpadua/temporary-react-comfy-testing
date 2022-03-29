@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 //import { useUserContext } from '../context/user_context';
@@ -11,12 +11,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const PrivateRoute = ({children, ...rest}) => { 
   const {user} = useAuth0();
+ if(!user) { 
+   return <Navigate to="/" /> 
+  }
 
-  //:::: aqui é o spread operator ... para recolher o que captamos como o ...rest em cima na PrivateRoute >> que são estes: exact path="/checkout"
-  return <Route {...rest} render={()=> {
-    //:::: se o user existir faz return do children, neste caso a <Checkout /> page component
-    //:::: caso contrário faz return do <Redirect> do react router para fazer o reditecionamento para a página home 
-    return user ? children : <Redirect to="/"></Redirect>
-  }}></Route>;
+  return children;
 };
 export default PrivateRoute;

@@ -11,8 +11,8 @@ import axios from 'axios'
 import { useCartContext } from '../context/cart_context'
 import { useUserContext } from '../context/user_context'
 import { formatPrice } from '../utils/helpers'
-import { useHistory } from 'react-router-dom'
-import CartButtons from './CartButtons'
+import { useNavigate } from 'react-router-dom'
+
 
 const promise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
 
@@ -20,7 +20,7 @@ const CheckoutForm = () => {
 
   const {cart, total_amount, shipping_fee, clearCart} = useCartContext();
   const {myUser} = useUserContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // STRIPE STUFF
   const [succeeded, setSucceeded] = useState(false);
@@ -95,8 +95,8 @@ const CheckoutForm = () => {
       //:::: ou podemos limpar o cart fora do setTimeout
       setTimeout(() => { 
         clearCart(); 
-        history.push('/')
-      }, 5000)
+        navigate('/')
+      }, 1000)
     }
 
   }
